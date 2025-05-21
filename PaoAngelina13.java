@@ -33,11 +33,7 @@ public class PaoAngelina13 {
       
       // Adding at least 5 Song objects
       try {
-         playlist.add(new Song("Oceans & Engines", "NIKI", 5, 36));
-         playlist.add(new Song("When the Rain Stops", "eaJ", 3, 23));
-         playlist.add(new Song("Stay a Little Longer", "Rose", 4, 07));
-         playlist.add(new Song("I Know It Won't Work", "Grace Abrams", 4, 06));
-         playlist.add(new Song("Steal The Show", "Lauv", 3, 13));
+         
       }
       catch (NumberException ne) {
          System.out.println("Error adding song: " + ne.getMessage());
@@ -57,18 +53,23 @@ public class PaoAngelina13 {
  * 
  * @param       none
  * @return      the ArrayList in order with the Song objects    
- * @exception   
+ * @exception   SongException if there is an issue initalizing a Song object
  */ 
    // createPlayList method
    public static ArrayList<Song> createPlaylist() {
      // Create the Arraylist
      ArrayList<Song> playlist = new ArrayList<>();
       try {
-      
+         playlist.add(new Song("Oceans & Engines", "NIKI", 5, 36));
+         playlist.add(new Song("When the Rain Stops", "eaJ", 3, 23));
+         playlist.add(new Song("Stay a Little Longer", "Rose", 4, 07));
+         playlist.add(new Song("I Know It Won't Work", "Grace Abrams", 4, 06));
+         playlist.add(new Song("Steal The Show", "Lauv", 3, 13));
       }
-      catch ( ) {
-      
+      catch (SongException se) {
+         System.out.println("Error initalizing playlist: " + se.getMessage());
       }
+      // Return the ArrayList
       return playlist;
    }
    
@@ -79,7 +80,7 @@ public class PaoAngelina13 {
  * @param       ArrayList<Song> playlist to hold & retrieve the Song object
  * @param       Scanner reader to hold user input
  * @return      playlist  
- * @exception   NumberException to ensure number isn't negative
+ * @exception   SongException to ensure if there is an issue initalizing a Song object
  * @exception   InputMismatchException to make sure user enters the wrong type
  */ 
    // editPlayList method
