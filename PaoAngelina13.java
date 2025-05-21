@@ -41,66 +41,6 @@ public class PaoAngelina13 {
       
       // Calling the editPlaylist method
       playlist = editPlaylist(playlist, reader);
-
-      // Ask the user if they want to edit the playlist
-      System.out.print("\nWhat do you think? Should I make any changes to the playlist?" + 
-      "\n(Or if you change your mind, you can say nevermind.)" + "\nType add, remove, or nevermind: " + userResponse);
-      userResponse = reader.nextLine();
-
-      // If the user enters add, they are prompted the following:
-      if (userResponse.equalsIgnoreCase("add")) {
-       System.out.println("\n\tOkay, let's add a song! Please enter the song information: ");
-       System.out.print("\t\tSong Title: ");
-       try {
-        String title = reader.nextLine();
-        reader.nextLine();
-        
-        System.out.print("\t\tArtist: ");
-        try {
-         String artist = reader.nextLine();
-         reader.nextLine();
-
-         System.out.print("\t\tMinutes: ");
-         try {
-          minutes = reader.nextInt();
-          reader.nextLine();
-
-          System.out.println("\t\tSeconds: ");
-          try {
-           seconds = reader.nextInt();
-           reader.nextLine();
-
-           playlist.add(reader.nextInt() - 1, new Song(title, artist, minutes, seconds));
-           reader.nextLine();
-               
-           System.out.println("\nNow adding \'" + playlist.get(playlist.size() - 1).getTitle() + "\' as #" + playlist.size() + " on the playlist...");
-           System.out.println("\nHere's the new playlist: ");
-           for (int i = 0; i < playlist.size(); i++) {
-            System.out.println((i + 1) + ". " + playlist.get(i)); // Print all songs correctly
-           }
-          }
-          catch (Exception e) {
-           System.out.println("Error setting seconds: " + e.getMessage());
-          }
-         }
-         catch (Exception e) {
-          System.out.println("Error setting minutes: " + e.getMessage());
-         }
-        }
-        catch (Exception e) {
-         System.out.println("Error retrieving artist of the song: " + e.getMessage());
-        }
-       }
-       catch (Exception e) {
-        System.out.println("Error creating song title: " + e.getMessage());
-       }
-       
-            
-       
-      }
-      else {
-
-      }
       
       // Calling the savePlaylist method
       playlist = savePlaylist(playlist, reader);
@@ -143,91 +83,63 @@ public class PaoAngelina13 {
  */ 
    // editPlayList method
    public static ArrayList<Song> editPlaylist(ArrayList<Song> playlist, Scanner reader) {
-      boolean editing = true;
-     
-      while (editing) {
-         // Ask the user if they want to make changes to the playlist
-         String userResponse = "";
-      
-         System.out.print("\nWhat do you think? Should I make any changes to the playlist?" + 
-            "\n(Or if you change your mind, you can say nevermind.)" + "\nType add, remove, or nevermind: " + userResponse);
-         userResponse = reader.nextLine();
-         
-         if (userResponse.toLowerCase().equals("add")) {
-            try {
-               System.out.println("\n\tOkay, let's add a song! Please enter the song information: ");
-                  
-               System.out.print("\t\tSong Title: ");
-               String title = reader.nextLine();
-            
-               System.out.print("\t\tArtist: ");
-               String artist = reader.nextLine();
-            
-               int minutes = -1;
-               while (minutes < 0) {
-                  System.out.print("\t\tMinutes: ");
-                  try {
-                     minutes = reader.nextInt();
-                     reader.nextLine();   
-                    
-                     if (minutes < 0) {
-                        throw new NumberException("\tSorry but " + minutes + " isn't a proper or positive numerical value. Please try again.");
-                     }
-                  }      
-                  catch (java.util.InputMismatchException ime) {
-                     System.out.println("\nERROR! You must enter a valid number.");
-                     reader.nextLine();
-                  } 
-                  catch (NumberException ne) {
-                     System.out.println(ne.getMessage());
-                  }
-               }    
-               int seconds = -1;
-               while (seconds < 0) {
-                  System.out.print("\t\tSeconds: ");
-                  try {
-                     if (!reader.hasNextInt()) { // Handles non-numeric input (including spaces)
-                        System.out.println("\n\tERROR! You must enter a valid number. Please try again!");
-                        reader.nextLine(); // Clear invalid input
-                        continue;
-                     }
-                  
-                     seconds = reader.nextInt();
-                     reader.nextLine();   
-                    
-                     if (seconds < 0) {
-                        throw new NumberException("\tSorry but " + seconds + " isn't a proper or positive numerical value. Please try again.");
-                     }
-                  }      
-                  catch (java.util.InputMismatchException ime) {
-                     System.out.println("\nERROR! You must enter a valid number.");
-                     reader.nextLine();
-                  } 
-                  catch (NumberException ne) {
-                     System.out.println(ne.getMessage());
-                  }
-               }           
-            
-               System.out.print("\tWhat # song in the playlist should it be: ");
-                  
+      // Ask the user if they want to edit the playlist
+      System.out.print("\nWhat do you think? Should I make any changes to the playlist?" + 
+      "\n(Or if you change your mind, you can say nevermind.)" + "\nType add, remove, or nevermind: " + userResponse);
+      userResponse = reader.nextLine();
+
+      // If the user enters add, they are prompted the following:
+      if (userResponse.equalsIgnoreCase("add")) {
+       System.out.println("\n\tOkay, let's add a song! Please enter the song information: ");
+       System.out.print("\t\tSong Title: ");
+       try {
+        String title = reader.nextLine();
+        reader.nextLine();
+        
+        System.out.print("\t\tArtist: ");
+        try {
+         String artist = reader.nextLine();
+         reader.nextLine();
+
+         System.out.print("\t\tMinutes: ");
+         try {
+          minutes = reader.nextInt();
+          reader.nextLine();
+
+          System.out.println("\t\tSeconds: ");
+          try {
+           seconds = reader.nextInt();
+           reader.nextLine();
+           
+           playlist.add(reader.nextInt() - 1, new Song(title, artist, minutes, seconds));
+           reader.nextLine();
                
-            }
-            catch (java.util.InputMismatchException ime) {
-               System.out.println("ERROR! You must enter a valid number.");
-            }
-            catch (NumberException ne) {
-               System.out.println("ERROR! " + ne.getMessage());
-            }  
+           System.out.println("\nNow adding \'" + playlist.get(playlist.size() - 1).getTitle() + "\' as #" + playlist.size() + " on the playlist...");
+           System.out.println("\nHere's the new playlist: ");
+           for (int i = 0; i < playlist.size(); i++) {
+            System.out.println((i + 1) + ". " + playlist.get(i)); // Print all songs correctly
+           }
+          }
+          catch (Exception e) {
+           System.out.println("Error setting seconds: " + e.getMessage());
+          }
          }
-         else if (userResponse.toLowerCase().equals("nevermind")) {
-            System.out.println("\nNo changes made. Returning to the playlist view.");
-            editing = false;
+         catch (Exception e) {
+          System.out.println("Error setting minutes: " + e.getMessage());
          }
-         else if (userResponse.toLowerCase().equals("remove")) {
-             // Removes the song
+        }
+        catch (Exception e) {
+         System.out.println("Error retrieving artist of the song: " + e.getMessage());
+        }
+       }
+       catch (Exception e) {
+        System.out.println("Error creating song title: " + e.getMessage());
+       }
+      }
+      else if (userResponse.equalsIgnoreCase("remove")) {
+       // Removes the song
             System.out.println("\nOkay!, Just in case you forgot, here is the current playlist: ");
-               
-            System.out.println("\n***Unstrung Emotions Playlist***");
+       System.out.println("\n***Unstrung Emotions Playlist***");
             for (int i = 0; i < playlist.size(); i++) {
                System.out.println((i + 1) + ". " + playlist.get(i));
             }
@@ -243,17 +155,17 @@ public class PaoAngelina13 {
                for (int i = 0; i < playlist.size(); i++) {
                   System.out.println((i + 1) + ". " + playlist.get(i)); // Print all songs correctly
                }
-            
-            } 
-            else {
-               System.out.println("ERROR! You need to type a number.");
-               reader.nextLine();
             }
-         }
-         else {
+            else {
+             System.out.println("ERROR! You need to type a number.");
+             reader.nextLine();
+            }
+      }
+      else if (userResponse.toLowerCase().equals("nevermind")) {
+            System.out.println("\nNo changes made. Returning to the playlist view.");
+      }
+      else {
             System.out.println("\nInvalid input! Please type add, remove, or nevermind.");
-         }
-      
       }
       return playlist;  
    }
