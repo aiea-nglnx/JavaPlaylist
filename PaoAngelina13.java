@@ -24,25 +24,83 @@ public class PaoAngelina13 {
       // Declaring variables and initializing resources
       Scanner reader = new Scanner(System.in);
       String greetings = ""; // Stores the user's name
+      String userResponse = "";
+      String title = "";
+      String artist = "";
+      int minutes = 0;
+      int seconds = 0;
       
       // Prompt the user to enter their name and greet them when the program runs
       System.out.print("Greetings, what's your name? ");
       greetings = reader.nextLine();
       System.out.println("\nHey " + greetings.toUpperCase() + "!" + " This program will display " +
          "the songs in my 'Unstrung Emotions' playlist!");
-      
-      // Adding at least 5 Song objects
-      try {
-         
-      }
-      catch (NumberException ne) {
-         System.out.println("Error adding song: " + ne.getMessage());
-      }
+     
       // Calling the createPlaylist method
-      createPlaylist(playlist);
+      playlist = createPlaylist();
       
       // Calling the editPlaylist method
       playlist = editPlaylist(playlist, reader);
+
+      // Ask the user if they want to edit the playlist
+      System.out.print("\nWhat do you think? Should I make any changes to the playlist?" + 
+      "\n(Or if you change your mind, you can say nevermind.)" + "\nType add, remove, or nevermind: " + userResponse);
+      userResponse = reader.nextLine();
+
+      // If the user enters add, they are prompted the following:
+      if (userResponse.equalsIgnoreCase("add")) {
+       System.out.println("\n\tOkay, let's add a song! Please enter the song information: ");
+       System.out.print("\t\tSong Title: ");
+       try {
+        String title = reader.nextLine();
+        reader.nextLine();
+        
+        System.out.print("\t\tArtist: ");
+        try {
+         String artist = reader.nextLine();
+         reader.nextLine();
+
+         System.out.print("\t\tMinutes: ");
+         try {
+          minutes = reader.nextInt();
+          reader.nextLine();
+
+          System.out.println("\t\tSeconds: ");
+          try {
+           seconds = reader.nextInt();
+           reader.nextLine();
+
+           playlist.add(reader.nextInt() - 1, new Song(title, artist, minutes, seconds));
+           reader.nextLine();
+               
+           System.out.println("\nNow adding \'" + playlist.get(playlist.size() - 1).getTitle() + "\' as #" + playlist.size() + " on the playlist...");
+           System.out.println("\nHere's the new playlist: ");
+           for (int i = 0; i < playlist.size(); i++) {
+            System.out.println((i + 1) + ". " + playlist.get(i)); // Print all songs correctly
+           }
+          }
+          catch (Exception e) {
+           System.out.println("Error setting seconds: " + e.getMessage());
+          }
+         }
+         catch (Exception e) {
+          System.out.println("Error setting minutes: " + e.getMessage());
+         }
+        }
+        catch (Exception e) {
+         System.out.println("Error retrieving artist of the song: " + e.getMessage());
+        }
+       }
+       catch (Exception e) {
+        System.out.println("Error creating song title: " + e.getMessage());
+       }
+       
+            
+       
+      }
+      else {
+
+      }
       
       // Calling the savePlaylist method
       playlist = savePlaylist(playlist, reader);
@@ -152,14 +210,7 @@ public class PaoAngelina13 {
             
                System.out.print("\tWhat # song in the playlist should it be: ");
                   
-               playlist.add(reader.nextInt() - 1, new Song(title, artist, minutes, seconds));
-               reader.nextLine();
                
-               System.out.println("\nNow adding \'" + playlist.get(playlist.size() - 1).getTitle() + "\' as #" + playlist.size() + " on the playlist...");
-               System.out.println("\nHere's the new playlist: ");
-               for (int i = 0; i < playlist.size(); i++) {
-                  System.out.println((i + 1) + ". " + playlist.get(i)); // Print all songs correctly
-               }
             }
             catch (java.util.InputMismatchException ime) {
                System.out.println("ERROR! You must enter a valid number.");
