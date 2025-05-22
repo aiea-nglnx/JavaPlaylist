@@ -12,8 +12,6 @@ import java.io.File;
  * created to prevent runtime errors.
  * 
  * @author     Pao, Angelina
- * @assignment ICS 111 Assignment 13
- * @date       05/04/2025
  * @bugs       Short description of bugs in the program, if any.
  */
  
@@ -29,7 +27,7 @@ public class PaoAngelina13 {
       System.out.print("Greetings, what's your name? ");
       greetings = reader.nextLine();
       System.out.println("\nHey " + greetings.toUpperCase() + "!" + " This program will display " +
-         "the songs in my 'Unstrung Emotions' playlist!");
+         "the songs in my 'Unstrung Emotions' playlist!\n");
      
       // Calling the createPlaylist method
       playlist = createPlaylist();
@@ -81,8 +79,13 @@ public class PaoAngelina13 {
      // Display the playlist
      
      for (int i = 0; i < playlist.size(); i++) {
-      Song songs = playlist.get(i);
-      System.out.printf(songs.getTitle(), songs.getArtist(), songs.getMinutes(), songs.getSeconds()); 
+      Song song = playlist.get(i);
+      System.out.printf("%s by %s | Duration: %d:%02d%n",
+      song.getTitle(), 
+      song.getArtist(), 
+      song.getMinutes(), 
+      song.getSeconds()
+      ); 
      }
      
   }
@@ -100,99 +103,94 @@ public class PaoAngelina13 {
  */ 
    // editPlayList method
    public static ArrayList<Song> editPlaylist(ArrayList<Song> playlist, Scanner reader) {
-      // Ask the user if they want to edit the playlist
-      String userResponse = "";
-      String title = "";
-      String artist = "";
-      int minutes = 0;
-      int seconds = 0;
-      
-      System.out.print("\nWhat do you think? Should I make any changes to the playlist?" + 
-      "\n(Or if you change your mind, you can say nevermind.)" + "\nType add, remove, or nevermind: " + userResponse);
-      userResponse = reader.nextLine();
-
-      // If the user enters add, they are prompted the following:
-      if (userResponse.equalsIgnoreCase("add")) {
-       System.out.println("\n\tOkay, let's add a song! Please enter the song information: ");
-       System.out.print("\t\tSong Title: ");
-       try {
-        title = reader.nextLine();
-        reader.nextLine();
-        
-        System.out.print("\t\tArtist: ");
+    boolean success = false; // Tracks whether song addition was successful
+    while (!success) { // Keep looping until valid input is given
         try {
-         artist = reader.nextLine();
-         reader.nextLine();
+            System.out.print("\nWhat do you think? Should I make any changes to the playlist?" + 
+                "\n(Or if you change your mind, you can say nevermind.)" + 
+                "\n\tType add, remove, or nevermind: ");
+            String userResponse = reader.nextLine();
 
-         System.out.print("\t\tMinutes: ");
-         try {
-          minutes = reader.nextInt();
-          reader.nextLine();
+            if (userResponse.equalsIgnoreCase("add")) {
+                System.out.println("\n\tOkay, let's add a song! Please enter the song information: ");
 
-          System.out.println("\t\tSeconds: ");
-          try {
-           seconds = reader.nextInt();
-           reader.nextLine();
-           
-           playlist.add(reader.nextInt() - 1, new Song(title, artist, minutes, seconds));
-           reader.nextLine();
-               
-           System.out.println("\nNow adding \'" + playlist.get(playlist.size() - 1).getTitle() + "\' as #" + playlist.size() + " on the playlist...");
-           System.out.println("\nHere's the new playlist: ");
-           for (int i = 0; i < playlist.size(); i++) {
-            System.out.println((i + 1) + ". " + playlist.get(i)); // Print all songs correctly
-           }
-          }
-          catch (Exception e) {
-           System.out.println("Error setting seconds: " + e.getMessage());
-          }
-         }
-         catch (Exception e) {
-          System.out.println("Error setting minutes: " + e.getMessage());
-         }
-        }
-        catch (Exception e) {
-         System.out.println("Error retrieving artist of the song: " + e.getMessage());
-        }
-       }
-       catch (Exception e) {
-        System.out.println("Error creating song title: " + e.getMessage());
-       }
-      }
-      else if (userResponse.equalsIgnoreCase("remove")) {
-       // Removes the song
-            System.out.println("\nOkay!, Just in case you forgot, here is the current playlist: ");
-       System.out.println("\n***Unstrung Emotions Playlist***");
-            for (int i = 0; i < playlist.size(); i++) {
-               System.out.println((i + 1) + ". " + playlist.get(i));
+                System.out.print("\t\tSong Title: ");
+                String title = reader.nextLine();
+
+                System.out.print("\t\tArtist: ");
+                String artist = reader.nextLine();
+
+                int minutes = 0, seconds = 0;
+                try {
+                    System.out.print("\t\tMinutes: ");
+                    minutes = reader.nextInt();
+                    System.out.print("\t\tSeconds: ");
+                    seconds = reader.nextInt();
+                    reader.nextLine(); // Consume leftover newline
+
+                    // Try creating the song (this triggers validation)
+                    Song newSong = new Song(title, artist, minutes, seconds);
+                    playlist.add(newSong);
+
+                    System.out.println("\nNow adding '" + newSong.getTitle() + "' to the playlist!");
+                    success = true; // Exit loop if song is added successfully
+
+                    System.out.println("\nHere's the new playlist:");
+                    for (int i = 0; i < playlist.size(); i++) {
+                        System.out.println((i + 1) + ". " + playlist.get(i)); // Print all songs correctly
+                    }
+                } catch (SongException se) { 
+                    System.out.println("ERROR! Invalid song entry: " + se.getMessage());
+                    System.out.println("Restarting input process... Please try again.");
+                    reader.nextLine(); // Clear invalid input
+                } catch (Exception e) {
+                    System.out.println("ERROR! Please enter valid numbers for minutes and seconds.");
+                    System.out.println("Restarting input process... Please try again.");
+                    reader.nextLine(); // Clear invalid input
+                }
             }
-            System.out.print("Which # song would you like to remove: ");             
-            if (reader.hasNextInt()) {
-               Song removedSong = playlist.remove(reader.nextInt() - 1);
-               reader.nextLine();
-               System.out.println("\nNow removing \"" + removedSong.getTitle() + "\" by " + removedSong.getArtist() + 
-                  " (" + removedSong.getMinutes() + ":" + 
-                  String.format("%02d", removedSong.getSeconds()) + ")...");
-               
-               System.out.println("\nHere's the new playlist: ");
-               for (int i = 0; i < playlist.size(); i++) {
-                  System.out.println((i + 1) + ". " + playlist.get(i)); // Print all songs correctly
-               }
+            else if (userResponse.equalsIgnoreCase("remove")) {
+                System.out.println("\nOkay! Just in case you forgot, here is the current playlist:");
+                System.out.println("\n*** Unstrung Emotions Playlist ***");
+                for (int i = 0; i < playlist.size(); i++) {
+                    System.out.println((i + 1) + ". " + playlist.get(i));
+                }
+
+                System.out.print("Which # song would you like to remove: ");
+                if (reader.hasNextInt()) {
+                    int index = reader.nextInt() - 1;
+                    reader.nextLine(); // Consume leftover newline
+
+                    if (index >= 0 && index < playlist.size()) {
+                        Song removedSong = playlist.remove(index);
+                        System.out.println("\nNow removing \"" + removedSong.getTitle() + "\" by " + removedSong.getArtist());
+                        success = true; // Exit loop after successful removal
+                    } else {
+                        System.out.println("ERROR! Invalid song number. Please enter a number between 1 and " + playlist.size());
+                    }
+                } else {
+                    System.out.println("ERROR! You need to type a number.");
+                    reader.nextLine(); // Clear invalid input
+                }
+            }
+            else if (userResponse.equalsIgnoreCase("nevermind")) {
+                System.out.println("\nNo changes made. Returning to the playlist view.");
+                success = true; // Exit loop
             }
             else {
-             System.out.println("ERROR! You need to type a number.");
-             reader.nextLine();
+                System.out.println("\nInvalid input! Please type add, remove, or nevermind.");
             }
-      }
-      else if (userResponse.toLowerCase().equals("nevermind")) {
-            System.out.println("\nNo changes made. Returning to the playlist view.");
-      }
-      else {
-            System.out.println("\nInvalid input! Please type add, remove, or nevermind.");
-      }
-      return playlist;  
-   }
-     
+
+        } catch (Exception e) {
+            System.out.println("ERROR! An unexpected error occurred: " + e.getMessage());
+            System.out.println("Restarting input process... Please try again.");
+            reader.nextLine(); // Clear invalid input
+        }
+    }
+    
+    return playlist;  
+}
+      
 /**
  * A savePlaylist that serves as an indicator for whether the user would like
  * like to append to or overwrite a file.
