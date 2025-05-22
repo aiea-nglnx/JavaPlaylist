@@ -24,12 +24,7 @@ public class PaoAngelina13 {
       // Declaring variables and initializing resources
       Scanner reader = new Scanner(System.in);
       String greetings = ""; // Stores the user's name
-      String userResponse = "";
-      String title = "";
-      String artist = "";
-      int minutes = 0;
-      int seconds = 0;
-      
+            
       // Prompt the user to enter their name and greet them when the program runs
       System.out.print("Greetings, what's your name? ");
       greetings = reader.nextLine();
@@ -38,7 +33,10 @@ public class PaoAngelina13 {
      
       // Calling the createPlaylist method
       playlist = createPlaylist();
+      displayPlaylist(playlist);
       
+      
+            
       // Calling the editPlaylist method
       playlist = editPlaylist(playlist, reader);
       
@@ -70,7 +68,26 @@ public class PaoAngelina13 {
       // Return the ArrayList
       return playlist;
    }
-   
+
+/**
+ * A displayPlaylist that prints out the ArrayList in order with Song Objects separated
+ * 
+ * @param       playlist An ArrayList of Song objects representing the songs
+ * @return      none    
+ * @exception   none
+ */ 
+   // displayPlaylist method
+   public static void displayPlaylist (ArrayList<Song> playlist) {
+     // Display the playlist
+     
+     for (int i = 0; i < playlist.size(); i++) {
+      Song songs = playlist.get(i);
+      System.out.printf(songs.getTitle(), songs.getArtist(), songs.getMinutes(), songs.getSeconds()); 
+     }
+     
+  }
+
+
 /**
  * A editPlaylist that after the ArrayList of Song object that are passed
  * allows the user to remove or add a song
@@ -84,6 +101,12 @@ public class PaoAngelina13 {
    // editPlayList method
    public static ArrayList<Song> editPlaylist(ArrayList<Song> playlist, Scanner reader) {
       // Ask the user if they want to edit the playlist
+      String userResponse = "";
+      String title = "";
+      String artist = "";
+      int minutes = 0;
+      int seconds = 0;
+      
       System.out.print("\nWhat do you think? Should I make any changes to the playlist?" + 
       "\n(Or if you change your mind, you can say nevermind.)" + "\nType add, remove, or nevermind: " + userResponse);
       userResponse = reader.nextLine();
@@ -93,12 +116,12 @@ public class PaoAngelina13 {
        System.out.println("\n\tOkay, let's add a song! Please enter the song information: ");
        System.out.print("\t\tSong Title: ");
        try {
-        String title = reader.nextLine();
+        title = reader.nextLine();
         reader.nextLine();
         
         System.out.print("\t\tArtist: ");
         try {
-         String artist = reader.nextLine();
+         artist = reader.nextLine();
          reader.nextLine();
 
          System.out.print("\t\tMinutes: ");
