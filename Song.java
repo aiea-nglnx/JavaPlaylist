@@ -3,8 +3,7 @@
  * demonstrating the student's understanding of objects and ArrayList.
  * 
  * @author     Pao, Angelina
- * @assignment ICS 111 Assignment 11 - Song Object
- * @date       04/20/2025
+ * @thing      Song Object
  * @bugs       Short description of bugs in the program, if any.
  */
  
