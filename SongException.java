@@ -6,8 +6,7 @@ import java.util.Scanner;
  * Number exception ensures if a number is negtiave or not.
  * 
  * @author     Pao, Angelina
- * @assignment ICS 111 Assignment 13 - Custom Exception
- * @date       05/04/2025
+ * @thing      Custom Exception
  * @bugs       Short description of bugs in the program, if any.
  */
  
