@@ -55,7 +55,7 @@
       String output = "";
       output += "\"" + this.title + "\""; // Adds song title to output
       output += " by " + this.artist + " "; // Adds artist of the song to output
-      output += "\n" + this.minutes + " minutes "; // Adds the minutes of the song to output
+      output += "\n\t" + this.minutes + " minutes "; // Adds the minutes of the song to output
       output += this.seconds + " seconds\n"; // Adds the seconds of the song to output
       
       return output;
@@ -101,7 +101,7 @@
       
    }
    public void setseconds(int newSeconds) throws SongException {
-      if (newSeconds > 0 || seconds < 59) {
+      if (newSeconds > 0 && newSeconds < 59) {
          this.seconds = newSeconds;
       }
       else {
