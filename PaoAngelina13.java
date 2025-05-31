@@ -110,41 +110,12 @@ public class PaoAngelina13 {
             String userResponse = reader.nextLine();
          
             if (userResponse.equalsIgnoreCase("add")) {
-               System.out.println("\n\tOkay, let's add a song! Please enter the song information: ");
-            
-               System.out.print("\t\tSong Title: ");
-               String title = reader.nextLine();
-            
-               System.out.print("\t\tArtist: ");
-               String artist = reader.nextLine();
-            
-               int minutes = 0, seconds = 0;
-               try {
-                  System.out.print("\t\tMinutes: ");
-                  minutes = reader.nextInt();
-                  System.out.print("\t\tSeconds: ");
-                  seconds = reader.nextInt();
-                  reader.nextLine(); // Consume leftover newline
-               
-                    // Try creating the song (this triggers validation)
-                  Song newSong = new Song(title, artist, minutes, seconds);
-                  playlist.add(newSong);
-               
-                  System.out.println("\nNow adding '" + newSong.getTitle() + "' to the playlist!");
-                  success = true; // Exit loop if song is added successfully
-               
-                  System.out.println("\nHere's the new playlist:");
-                  for (int i = 0; i < playlist.size(); i++) {
-                     System.out.println((i + 1) + ". " + playlist.get(i)); // Print all songs correctly
-                  }
-               } catch (SongException se) { 
-                  System.out.println("ERROR! Invalid song entry: " + se.getMessage());
-                  System.out.println("Restarting input process... Please try again.");
-                  reader.nextLine(); // Clear invalid input
-               } catch (Exception e) {
-                  System.out.println("ERROR! Please enter valid numbers for minutes and seconds.");
-                  System.out.println("Restarting input process... Please try again.");
-                  reader.nextLine(); // Clear invalid input
+               boolean addMore = true;
+               while (addMore) {
+                  playlist = promptAndAddSong(playlist, reader);
+                  System.out.print("\nWould you like to add another song? (yes/no): ");
+                  String addAnother = reader.nextLine();
+                  addMore = addAnother.equalsIgnoreCase("yes");
                }
             }
             else if (userResponse.equalsIgnoreCase("remove")) {
@@ -188,7 +159,47 @@ public class PaoAngelina13 {
     
       return playlist;  
    }
+
+/**
+ * Prompts the user to input data for a new song and adds it to the playlist.
+ * @param playlist the playlist to update
+ * @param reader the Scanner for user input
+ * @return the updated playlist
+ */
+   public static ArrayList<Song> promptAndAddSong(ArrayList<Song> playlist, Scanner reader) {
+      System.out.println("\n\tOkay, let's add another song! Please enter the song information:");
+      System.out.print("\t\tSong Title: ");
+      String title = reader.nextLine();
+   
+      System.out.print("\t\tArtist: ");
+      String artist = reader.nextLine();
+   
+      int minutes = 0, seconds = 0;
+      try {
+         System.out.print("\t\tMinutes: ");
+         minutes = reader.nextInt();
+         System.out.print("\t\tSeconds: ");
+         seconds = reader.nextInt();
+         reader.nextLine(); // Consume leftover newline
       
+         Song song = new Song(title, artist, minutes, seconds);
+         playlist.add(song);
+      
+         System.out.println("\nNow adding '" + song.getTitle() + "' to the playlist!");
+         System.out.println("\nHere's the new playlist:");
+         for (int i = 0; i < playlist.size(); i++) {
+            System.out.println((i + 1) + ". " + playlist.get(i));
+         }
+      } catch (SongException se) {
+         System.out.println("ERROR! Invalid song entry: " + se.getMessage());
+         reader.nextLine();
+      } catch (Exception e) {
+         System.out.println("ERROR! Please enter valid numbers for minutes and seconds.");
+         reader.nextLine();
+      }
+      return playlist;
+   }
+    
 /**
  * A savePlaylist that serves as an indicator for whether the user would like
  * like to append to or overwrite a file.
