@@ -1,3 +1,4 @@
+
 /**
  * An interactive program Java program that models a music playlist
  * demonstrating the student's understanding of objects and ArrayList.
@@ -21,12 +22,11 @@
  * @param artist    The name of the song's artist (must be at least 2 characters long).
  * @param minutes   The minutes of the song (must be a positive integer).
  * @param seconds   The seconds of the song (must be positive and can't be over 60).
- * @throws IllegalArgumentException   If the title or artist is too short, or the type is invalid.
- * @throws NumberException            If minutes or seconds is negative.
+ * @throws SongException
  */
    
    // Constructor that allows you to create the Song object
-   public Song(String title, String artist, int minutes, int seconds) throws NumberException {
+   public Song(String title, String artist, int minutes, int seconds) throws SongException {
       settitle(title);
       setartist(artist);
       setminutes(minutes);
@@ -75,37 +75,37 @@
    }
    
    // Adding Mutator methods to Song class that allows modification
-   public void settitle(String newTitle) throws IllegalArgumentException {
+   public void settitle(String newTitle) throws SongException {
       if (newTitle.length() >= 2) { 
       this.title = newTitle;
       }
       else {
-         throw new IllegalArgumentException("ERROR! Song title must be at least 2 characters long!!");
+         throw new SongException("ERROR! Song title must be at least 2 characters long!!");
       }
    }
-   public void setartist(String newArtist) throws IllegalArgumentException {
+   public void setartist(String newArtist) throws SongException {
       if (newArtist.length() >= 2) {
          this.artist = newArtist;
       }
       else {
-         throw new IllegalArgumentException("ERROR! Artist must be at least 2 characters long!");
+         throw new SongException("ERROR! Artist must be at least 2 characters long!");
       }
    }
-   public void setminutes(int newMinutes) throws NumberException {
+   public void setminutes(int newMinutes) throws SongException {
       if (newMinutes > 0) {
          this.minutes = newMinutes;
       }
       else {
-         throw new NumberException("ERROR! Sorry but " + newMinutes + " isn't a proper or positive numerical value.");
+         throw new SongException("ERROR! Sorry but " + newMinutes + " isn't a proper or positive numerical value.");
       }
       
    }
-   public void setseconds(int newSeconds) throws NumberException {
+   public void setseconds(int newSeconds) throws SongException {
       if (newSeconds > 0 || seconds < 59) {
          this.seconds = newSeconds;
       }
       else {
-         throw new NumberException("Sorry but " + newSeconds + " must be above the value 0 and can't be over 59.");
+         throw new SongException("Sorry but " + newSeconds + " must be above the value 0 and can't be over 59.");
       }
    }
 }
