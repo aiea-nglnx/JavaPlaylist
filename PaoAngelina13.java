@@ -97,7 +97,6 @@ public class PaoAngelina13 {
  * @param       Scanner reader to hold user input
  * @return      playlist  
  * @exception   SongException to ensure if there is an issue initalizing a Song object
- * @exception   InputMismatchException to make sure user enters the wrong type
  */ 
    // editPlayList method
    public static ArrayList<Song> editPlaylist(ArrayList<Song> playlist, Scanner reader) {
@@ -112,7 +111,7 @@ public class PaoAngelina13 {
             if (userResponse.equalsIgnoreCase("add")) {
                boolean addMore = true;
                while (addMore) {
-                  playlist = promptAndAddSong(playlist, reader);
+                  playlist = addSong(playlist, reader);
                   System.out.print("\nWould you like to add another song? (yes/no): ");
                   String addAnother = reader.nextLine();
                   addMore = addAnother.equalsIgnoreCase("yes");
@@ -132,12 +131,20 @@ public class PaoAngelina13 {
                
                   if (index >= 0 && index < playlist.size()) {
                      Song removedSong = playlist.remove(index);
-                     System.out.println("\nNow removing \"" + removedSong.getTitle() + "\" by " + removedSong.getArtist());
+                     System.out.println("\nNow removing: \"" + removedSong.getTitle() + "\" by " + removedSong.getArtist());
+                     
+                     System.out.println("\nHere's the new playlist:");
+                     for (int i = 0; i < playlist.size(); i++) {
+                        System.out.println((i + 1) + ". " + playlist.get(i));
+                     }
+                     
                      success = true; // Exit loop after successful removal
-                  } else {
+                  } 
+                  else {
                      System.out.println("ERROR! Invalid song number. Please enter a number between 1 and " + playlist.size());
                   }
-               } else {
+               } 
+               else {
                   System.out.println("ERROR! You need to type a number.");
                   reader.nextLine(); // Clear invalid input
                }
@@ -150,7 +157,8 @@ public class PaoAngelina13 {
                System.out.println("\nInvalid input! Please type add, remove, or nevermind.");
             }
          
-         } catch (Exception e) {
+         } 
+         catch (Exception e) {
             System.out.println("ERROR! An unexpected error occurred: " + e.getMessage());
             System.out.println("Restarting input process... Please try again.");
             reader.nextLine(); // Clear invalid input
@@ -166,7 +174,7 @@ public class PaoAngelina13 {
  * @param reader the Scanner for user input
  * @return the updated playlist
  */
-   public static ArrayList<Song> promptAndAddSong(ArrayList<Song> playlist, Scanner reader) {
+   public static ArrayList<Song> addSong(ArrayList<Song> playlist, Scanner reader) {
       System.out.println("\n\tOkay, let's add another song! Please enter the song information:");
       System.out.print("\t\tSong Title: ");
       String title = reader.nextLine();
@@ -190,13 +198,15 @@ public class PaoAngelina13 {
          for (int i = 0; i < playlist.size(); i++) {
             System.out.println((i + 1) + ". " + playlist.get(i));
          }
-      } catch (SongException se) {
+      } 
+      catch (SongException se) {
          System.out.println("ERROR! Invalid song entry: " + se.getMessage());
          reader.nextLine();
-      } catch (Exception e) {
+      } 
+      catch (Exception e) {
          System.out.println("ERROR! Please enter valid numbers for minutes and seconds.");
          reader.nextLine();
-      }
+      }      
       return playlist;
    }
     
@@ -214,7 +224,7 @@ public class PaoAngelina13 {
    public static ArrayList<Song> savePlaylist(ArrayList<Song> playlist, Scanner reader) {
       System.out.print("\nOnce you close this program, you're gonna lose all the playlist data."
          + "\nWould you like to save it to a file, so you can refer to it later?"
-         + "\nType yes or no: ");
+         + "\n\tType yes or no: ");
     
       String response = reader.nextLine().toLowerCase(); 
    
@@ -222,7 +232,7 @@ public class PaoAngelina13 {
          File outFH = new File("playlist.txt");
       
          System.out.print("\nWould you like to append to or overwrite this file?"
-            + "\nType append or overwrite: ");
+            + "\n\tType append or overwrite: ");
         
          response = reader.nextLine().toLowerCase(); // Reuse response
       
@@ -234,6 +244,7 @@ public class PaoAngelina13 {
       
          try (FileWriter outFW = new FileWriter(outFH, append)) {
             outFW.write("Playlist saved on: " + currentDate + "\n");
+            outFW.write("\n**** Unstrung Emotions ****");
             outFW.write("------------------------------------\n");
          
             if (playlist.isEmpty()) {
